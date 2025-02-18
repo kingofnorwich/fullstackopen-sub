@@ -3,21 +3,42 @@ const Button = ({ onClick, text }) => <button onClick={onClick}>{text}</button>;
 
 const Statistics = ({ good, neutral, bad, allClicks, average, popularity }) => {
   if (allClicks === 0) {
-    return <div>Please provide feedback to see the results</div>;
+    return (
+      <div>
+        <i>Start providing feedback to see the results</i>
+      </div>
+    );
   }
   return (
     <>
-      <p>Good: {good}</p>
-      <p>Neutral: {neutral}</p>
-      <p>Bad: {bad}</p>
-      <h2>In depth statistics</h2>
-      <p> Good = 1, Neutral = 0, Bad = -1</p>
-      <p>Total reviews: {allClicks}</p>
-      <p>Average Score: {average}</p>
-      <p>Popularity: {popularity}</p>
+      <h2>Statistics table</h2>
+      <table>
+        <tbody>
+          <tr>
+            <th>Rating</th>
+            <th>Score</th>
+          </tr>
+          <StatisticsLine rating={good} text={"Good"} />
+          <StatisticsLine rating={neutral} text={"Neutral"} />
+          <StatisticsLine rating={bad} text={"Bad"} />
+
+          <StatisticsLine rating={average} text={"Average Score"} />
+          <StatisticsLine rating={popularity} text={"Popularity"} />
+        </tbody>
+      </table>
+      <i>
+        Average and Popularity use the scoring of: Good =1, Neutral = 0, Bad =
+        -1
+      </i>
     </>
   );
 };
+const StatisticsLine = ({ rating, text }) => (
+  <tr>
+    <td>{text}</td>
+    <td>{rating}</td>
+  </tr>
+);
 
 const App = () => {
   // save clicks of each button to its own state
@@ -46,7 +67,6 @@ const App = () => {
     return ((good / allClicks) * 100).toFixed(0) + "%";
   };
   const average = ((good + neutral * 0 + bad * -1) / allClicks).toFixed(1);
-
   return (
     <div>
       <h1>Give Feedback</h1>
